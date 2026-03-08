@@ -38,7 +38,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {process.env.NODE_ENV === 'production' && <SerwistProvider swUrl="/sw.js" />}
+          <SerwistProvider swUrl="/sw.js" disable={process.env.NODE_ENV === 'development'} />
           {children}
           <Analytics />
         </ThemeProvider>
