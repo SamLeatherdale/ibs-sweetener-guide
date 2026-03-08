@@ -2,46 +2,65 @@
 
 import { cn } from "@/lib/utils";
 import type { IBSStatus, SweetenerType } from "@/src/types";
+import { ShieldCheck, AlertTriangle, ShieldX, Leaf, FlaskConical, Droplets } from "lucide-react";
 
-const ibsOptions: { value: IBSStatus; label: string; activeClass: string; hoverClass: string }[] = [
+const ibsOptions: {
+  value: IBSStatus;
+  label: string;
+  icon: React.ElementType;
+  activeClass: string;
+  hoverClass: string;
+}[] = [
   {
     value: "Safe",
     label: "Safe",
+    icon: ShieldCheck,
     activeClass: "bg-[#22c55e] text-white border-[#22c55e]",
     hoverClass: "hover:border-[#22c55e]/60 hover:text-[#22c55e]",
   },
   {
     value: "Caution",
     label: "Caution",
+    icon: AlertTriangle,
     activeClass: "bg-[#f97316] text-white border-[#f97316]",
     hoverClass: "hover:border-[#f97316]/60 hover:text-[#f97316]",
   },
   {
     value: "Trigger",
     label: "Trigger",
+    icon: ShieldX,
     activeClass: "bg-[#ef4444] text-white border-[#ef4444]",
     hoverClass: "hover:border-[#ef4444]/60 hover:text-[#ef4444]",
   },
 ];
 
-const typeOptions: { value: SweetenerType; label: string; activeClass: string; hoverClass: string }[] = [
+const typeOptions: {
+  value: SweetenerType;
+  label: string;
+  icon: React.ElementType;
+  activeClass: string;
+  hoverClass: string;
+}[] = [
   {
     value: "Natural",
     label: "Natural",
-    activeClass: "bg-primary text-primary-foreground border-primary",
-    hoverClass: "hover:border-primary/60 hover:text-primary",
+    icon: Leaf,
+    activeClass: "bg-emerald-500 text-white border-emerald-500",
+    hoverClass: "hover:border-emerald-500/60 hover:text-emerald-600",
   },
   {
     value: "Artificial",
     label: "Artificial",
-    activeClass: "bg-primary text-primary-foreground border-primary",
-    hoverClass: "hover:border-primary/60 hover:text-primary",
+    icon: FlaskConical,
+    activeClass: "bg-sky-500 text-white border-sky-500",
+    hoverClass: "hover:border-sky-500/60 hover:text-sky-600",
   },
   {
     value: "Sugar Alcohol",
     label: "Sugar Alcohol",
-    activeClass: "bg-primary text-primary-foreground border-primary",
-    hoverClass: "hover:border-primary/60 hover:text-primary",
+    icon: Droplets,
+    activeClass: "bg-violet-500 text-white border-violet-500",
+    hoverClass: "hover:border-violet-500/60 hover:text-violet-600",
   },
 ];
 
@@ -61,57 +80,49 @@ export function FilterChips({
   return (
     <div className="flex flex-col gap-2">
       {/* IBS Safety row */}
-      <div className="flex items-center gap-2" role="group" aria-label="Filter by IBS safety">
-        <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground w-10 shrink-0">
-          Safety
-        </span>
-        <div className="flex gap-1.5 flex-wrap">
-          {ibsOptions.map(({ value, label, activeClass, hoverClass }) => {
-            const active = activeStatuses.has(value);
-            return (
-              <button
-                key={value}
-                onClick={() => onToggleStatus(value)}
-                aria-pressed={active}
-                className={cn(
-                  "inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border transition-all duration-150",
-                  active
-                    ? cn(activeClass, "shadow-sm")
-                    : cn("bg-background text-muted-foreground border-border", hoverClass)
-                )}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
+      <div className="flex gap-1.5 flex-wrap" role="group" aria-label="Filter by IBS safety">
+        {ibsOptions.map(({ value, label, icon: Icon, activeClass, hoverClass }) => {
+          const active = activeStatuses.has(value);
+          return (
+            <button
+              key={value}
+              onClick={() => onToggleStatus(value)}
+              aria-pressed={active}
+              className={cn(
+                "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all duration-150",
+                active
+                  ? cn(activeClass, "shadow-sm")
+                  : cn("bg-background text-muted-foreground border-border", hoverClass)
+              )}
+            >
+              <Icon size={12} />
+              {label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Type row */}
-      <div className="flex items-center gap-2" role="group" aria-label="Filter by sweetener type">
-        <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground w-10 shrink-0">
-          Type
-        </span>
-        <div className="flex gap-1.5 flex-wrap">
-          {typeOptions.map(({ value, label, activeClass, hoverClass }) => {
-            const active = activeTypes.has(value);
-            return (
-              <button
-                key={value}
-                onClick={() => onToggleType(value)}
-                aria-pressed={active}
-                className={cn(
-                  "inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border transition-all duration-150",
-                  active
-                    ? cn(activeClass, "shadow-sm")
-                    : cn("bg-background text-muted-foreground border-border", hoverClass)
-                )}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
+      <div className="flex gap-1.5 flex-wrap" role="group" aria-label="Filter by sweetener type">
+        {typeOptions.map(({ value, label, icon: Icon, activeClass, hoverClass }) => {
+          const active = activeTypes.has(value);
+          return (
+            <button
+              key={value}
+              onClick={() => onToggleType(value)}
+              aria-pressed={active}
+              className={cn(
+                "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all duration-150",
+                active
+                  ? cn(activeClass, "shadow-sm")
+                  : cn("bg-background text-muted-foreground border-border", hoverClass)
+              )}
+            >
+              <Icon size={12} />
+              {label}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
