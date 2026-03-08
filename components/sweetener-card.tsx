@@ -1,11 +1,9 @@
-"use client";
-
+import Link from "next/link";
 import type { Sweetener } from "@/src/types";
 import { cn } from "@/lib/utils";
 
 interface SweetenerCardProps {
   sweetener: Sweetener;
-  onClick: (sweetener: Sweetener) => void;
 }
 
 const statusConfig = {
@@ -38,13 +36,13 @@ const typeConfig = {
   "Sugar Alcohol": { bg: "bg-violet-50 text-violet-700", darkBg: "dark:bg-violet-950/40 dark:text-violet-400" },
 };
 
-export function SweetenerCard({ sweetener, onClick }: SweetenerCardProps) {
+export function SweetenerCard({ sweetener }: SweetenerCardProps) {
   const status = statusConfig[sweetener.ibsStatus];
   const type = typeConfig[sweetener.type];
 
   return (
-    <button
-      onClick={() => onClick(sweetener)}
+    <Link
+      href={`/sweetener/${sweetener.id}`}
       className="w-full text-left bg-card border border-border rounded-2xl p-4 flex items-center gap-4 hover:bg-accent/40 active:scale-[0.98] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       aria-label={`View details for ${sweetener.name}, E number ${sweetener.code}`}
     >
@@ -94,6 +92,6 @@ export function SweetenerCard({ sweetener, onClick }: SweetenerCardProps) {
         <span className={cn("w-1.5 h-1.5 rounded-full", status.dot)} />
         {status.label}
       </div>
-    </button>
+    </Link>
   );
 }

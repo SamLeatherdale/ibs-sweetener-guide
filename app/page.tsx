@@ -3,9 +3,8 @@
 import { useState, useMemo } from "react";
 import { Search, Activity } from "lucide-react";
 import { sweeteners } from "@/src/data/sweeteners";
-import type { Sweetener, IBSStatus, SweetenerType } from "@/src/types";
+import type { IBSStatus, SweetenerType } from "@/src/types";
 import { SweetenerCard } from "@/components/sweetener-card";
-import { SweetenerDrawer } from "@/components/sweetener-drawer";
 import { FilterChips } from "@/components/filter-chips";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -15,7 +14,6 @@ export default function HomePage() {
   const [query, setQuery] = useState("");
   const [activeStatuses, setActiveStatuses] = useState<Set<IBSStatus>>(new Set());
   const [activeTypes, setActiveTypes] = useState<Set<SweetenerType>>(new Set());
-  const [selectedSweetener, setSelectedSweetener] = useState<Sweetener | null>(null);
 
   function toggleStatus(s: IBSStatus) {
     setActiveStatuses((prev) => {
@@ -118,10 +116,7 @@ export default function HomePage() {
           <ul className="space-y-2.5" role="list" aria-label="Sweetener list">
             {filtered.map((sweetener) => (
               <li key={sweetener.id}>
-                <SweetenerCard
-                  sweetener={sweetener}
-                  onClick={setSelectedSweetener}
-                />
+                <SweetenerCard sweetener={sweetener} />
               </li>
             ))}
           </ul>
@@ -137,11 +132,7 @@ export default function HomePage() {
         )}
       </div>
 
-      {/* Fullscreen detail panel */}
-      <SweetenerDrawer
-        sweetener={selectedSweetener}
-        onClose={() => setSelectedSweetener(null)}
-      />
+
     </main>
   );
 }
