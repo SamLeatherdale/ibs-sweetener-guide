@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "icons": "npx pwa-asset-generator public/icon.svg public/ --icon-only --favicon --type png --background \"#f9f7f4\" --opaque true --padding \"0%\" --manifest app/manifest.json && sed -i '' 's|\"src\": \"public/|\"src\": \"/|g' app/manifest.json"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
