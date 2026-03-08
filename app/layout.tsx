@@ -37,12 +37,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans antialiased">
-        <SerwistProvider swUrl="/sw.js">
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            {children}
-            <Analytics />
-          </ThemeProvider>
-        </SerwistProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {process.env.NODE_ENV === 'production' && <SerwistProvider swUrl="/sw.js" />}
+          {children}
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )
