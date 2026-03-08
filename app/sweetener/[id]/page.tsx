@@ -1,77 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { sweeteners } from "@/src/data/sweeteners";
-import {
-  ArrowLeft,
-  ShieldCheck,
-  AlertTriangle,
-  ShieldX,
-  Leaf,
-  FlaskConical,
-  Droplets,
-  Candy,
-  Tag,
-  UtensilsCrossed,
-} from "lucide-react";
+import { ArrowLeft, Tag, UtensilsCrossed } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const statusConfig = {
-  Safe: {
-    label: "IBS Safe",
-    icon: ShieldCheck,
-    color: "text-[#22c55e]",
-    bg: "bg-[#22c55e]/10",
-    border: "border-[#22c55e]/30",
-    badgeBg: "bg-[#22c55e]/10",
-    adviceBg: "bg-[#22c55e]/8 dark:bg-[#22c55e]/10",
-    adviceBorder: "border-[#22c55e]/20",
-    advice:
-      "Generally well tolerated by people with IBS. Suitable for regular consumption at typical serving sizes.",
-  },
-  Caution: {
-    label: "Caution",
-    icon: AlertTriangle,
-    color: "text-[#f97316]",
-    bg: "bg-[#f97316]/10",
-    border: "border-[#f97316]/30",
-    badgeBg: "bg-[#f97316]/10",
-    adviceBg: "bg-[#f97316]/8 dark:bg-[#f97316]/10",
-    adviceBorder: "border-[#f97316]/20",
-    advice:
-      "May be tolerated in small amounts but can cause symptoms in larger quantities. Start with very small portions and monitor your response.",
-  },
-  Trigger: {
-    label: "IBS Trigger",
-    icon: ShieldX,
-    color: "text-[#ef4444]",
-    bg: "bg-[#ef4444]/10",
-    border: "border-[#ef4444]/30",
-    badgeBg: "bg-[#ef4444]/10",
-    adviceBg: "bg-[#ef4444]/8 dark:bg-[#ef4444]/10",
-    adviceBorder: "border-[#ef4444]/20",
-    advice:
-      "Known to trigger IBS symptoms including bloating, cramps, and altered bowel habits. Best avoided if you have IBS.",
-  },
-};
-
-const typeConfig = {
-  "Natural Sweetener": {
-    icon: Leaf,
-    bg: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400",
-  },
-  Artificial: {
-    icon: FlaskConical,
-    bg: "bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-400",
-  },
-  "Sugar Alcohol": {
-    icon: Droplets,
-    bg: "bg-violet-50 text-violet-700 dark:bg-violet-950/40 dark:text-violet-400",
-  },
-  Sugar: {
-    icon: Candy,
-    bg: "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400",
-  },
-};
+import { statusConfig, typeConfig } from "@/src/config/sweetener-config";
 
 export async function generateStaticParams() {
   return sweeteners.map((s) => ({ id: s.id }));
@@ -155,7 +87,7 @@ export default async function SweetenerDetailPage({ params }: { params: Promise<
                 <span
                   className={cn(
                     "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium",
-                    type.bg,
+                    type.pillBg,
                   )}
                 >
                   <TypeIcon size={11} />

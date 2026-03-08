@@ -2,151 +2,116 @@
 
 import { cn } from "@/lib/utils";
 import type { IBSStatus, SweetenerType } from "@/src/types";
-import {
-  ShieldCheck,
-  AlertTriangle,
-  ShieldX,
-  Leaf,
-  FlaskConical,
-  Droplets,
-  Candy,
-} from "lucide-react";
+import { ibsStatusOptions, sweetenerTypeOptions } from "@/src/config/sweetener-config";
 
-const ibsOptions: {
-  value: IBSStatus;
+interface FilterChipProps {
   label: string;
   icon: React.ElementType;
+  active: boolean;
   activeClass: string;
   hoverClass: string;
-}[] = [
-  {
-    value: "Safe",
-    label: "Safe",
-    icon: ShieldCheck,
-    activeClass: "bg-[#22c55e] text-white border-[#22c55e]",
-    hoverClass: "hover:border-[#22c55e]/60 hover:text-[#22c55e]",
-  },
-  {
-    value: "Caution",
-    label: "Caution",
-    icon: AlertTriangle,
-    activeClass: "bg-[#f97316] text-white border-[#f97316]",
-    hoverClass: "hover:border-[#f97316]/60 hover:text-[#f97316]",
-  },
-  {
-    value: "Trigger",
-    label: "Trigger",
-    icon: ShieldX,
-    activeClass: "bg-[#ef4444] text-white border-[#ef4444]",
-    hoverClass: "hover:border-[#ef4444]/60 hover:text-[#ef4444]",
-  },
-];
+  onClick?: () => void;
+}
 
-const typeOptions: {
-  value: SweetenerType;
-  label: string;
-  icon: React.ElementType;
-  activeClass: string;
-  hoverClass: string;
-}[] = [
-  {
-    value: "Natural Sweetener",
-    label: "Natural Sweetener",
-    icon: Leaf,
-    activeClass: "bg-emerald-500 text-white border-emerald-500",
-    hoverClass: "hover:border-emerald-500/60 hover:text-emerald-600",
-  },
-  {
-    value: "Artificial",
-    label: "Artificial",
-    icon: FlaskConical,
-    activeClass: "bg-sky-500 text-white border-sky-500",
-    hoverClass: "hover:border-sky-500/60 hover:text-sky-600",
-  },
-  {
-    value: "Sugar Alcohol",
-    label: "Sugar Alcohol",
-    icon: Droplets,
-    activeClass: "bg-violet-500 text-white border-violet-500",
-    hoverClass: "hover:border-violet-500/60 hover:text-violet-600",
-  },
-  {
-    value: "Sugar",
-    label: "Sugar",
-    icon: Candy,
-    activeClass: "bg-amber-500 text-white border-amber-500",
-    hoverClass: "hover:border-amber-500/60 hover:text-amber-600",
-  },
-];
+function FilterChip({
+  label,
+  icon: Icon,
+  active,
+  activeClass,
+  hoverClass,
+  onClick,
+}: FilterChipProps) {
+  const className = cn(
+    "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold",
+    active
+      ? cn(activeClass, "shadow-sm")
+      : onClick
+        ? cn("bg-background text-muted-foreground border-border", hoverClass)
+        : "bg-background text-muted-foreground border-border opacity-50",
+  );
+
+  return onClick ? (
+    <button
+      onClick={onClick}
+      aria-pressed={active}
+      role="radio"
+      aria-checked={active}
+      className={cn(className, "transition-all duration-150")}
+    >
+      <Icon size={12} />
+      {label}
+    </button>
+  ) : (
+    <span className={className}>
+      <Icon size={12} />
+      {label}
+    </span>
+  );
+}
+
+interface FilterChipRowProps<T extends string> {
+  options: {
+    value: T;
+    label: string;
+    icon: React.ElementType;
+    activeClass: string;
+    hoverClass: string;
+  }[];
+  activeValue: T | null;
+  ariaLabel: string;
+  onSelect?: (value: T | null) => void;
+}
+
+function FilterChipRow<T extends string>({
+  options,
+  activeValue,
+  ariaLabel,
+  onSelect,
+}: FilterChipRowProps<T>) {
+  return (
+    <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label={ariaLabel}>
+      {options.map(({ value, label, icon, activeClass, hoverClass }) => (
+        <FilterChip
+          key={value}
+          label={label}
+          icon={icon}
+          active={activeValue === value}
+          activeClass={activeClass}
+          hoverClass={hoverClass}
+          onClick={onSelect ? () => onSelect(activeValue === value ? null : value) : undefined}
+        />
+      ))}
+    </div>
+  );
+}
 
 interface FilterChipsProps {
-  activeStatus: IBSStatus | null;
-  activeType: SweetenerType | null;
-  onSelectStatus: (s: IBSStatus | null) => void;
-  onSelectType: (t: SweetenerType | null) => void;
+  activeStatus?: IBSStatus | null;
+  activeType?: SweetenerType | null;
+  onSelectStatus?: (s: IBSStatus | null) => void;
+  onSelectType?: (t: SweetenerType | null) => void;
 }
 
 export function FilterChips({
-  activeStatus,
-  activeType,
+  activeStatus = null,
+  activeType = null,
   onSelectStatus,
   onSelectType,
 }: FilterChipsProps) {
   return (
     <div className="flex flex-col gap-2">
-      {/* IBS Safety row */}
-      <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Filter by IBS safety">
-        {ibsOptions.map(({ value, label, icon: Icon, activeClass, hoverClass }) => {
-          const active = activeStatus === value;
-          return (
-            <button
-              key={value}
-              onClick={() => onSelectStatus(active ? null : value)}
-              aria-pressed={active}
-              role="radio"
-              aria-checked={active}
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-all duration-150",
-                active
-                  ? cn(activeClass, "shadow-sm")
-                  : cn("bg-background text-muted-foreground border-border", hoverClass),
-              )}
-            >
-              <Icon size={12} />
-              {label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Type row */}
-      <div
-        className="flex flex-wrap gap-1.5"
-        role="radiogroup"
-        aria-label="Filter by sweetener type"
-      >
-        {typeOptions.map(({ value, label, icon: Icon, activeClass, hoverClass }) => {
-          const active = activeType === value;
-          return (
-            <button
-              key={value}
-              onClick={() => onSelectType(active ? null : value)}
-              aria-pressed={active}
-              role="radio"
-              aria-checked={active}
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-all duration-150",
-                active
-                  ? cn(activeClass, "shadow-sm")
-                  : cn("bg-background text-muted-foreground border-border", hoverClass),
-              )}
-            >
-              <Icon size={12} />
-              {label}
-            </button>
-          );
-        })}
-      </div>
+      <FilterChipRow
+        options={ibsStatusOptions}
+        activeValue={activeStatus}
+        ariaLabel="Filter by IBS safety"
+        onSelect={onSelectStatus}
+      />
+      <FilterChipRow
+        options={sweetenerTypeOptions}
+        activeValue={activeType}
+        ariaLabel="Filter by sweetener type"
+        onSelect={onSelectType}
+      />
     </div>
   );
 }

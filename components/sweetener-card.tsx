@@ -1,47 +1,11 @@
 import Link from "next/link";
 import type { Sweetener } from "@/src/types";
 import { cn } from "@/lib/utils";
+import { statusConfig, typeConfig } from "@/src/config/sweetener-config";
 
 interface SweetenerCardProps {
   sweetener: Sweetener;
 }
-
-const statusConfig = {
-  Safe: {
-    label: "IBS Safe",
-    color: "text-[#22c55e]",
-    bg: "bg-[#22c55e]/10",
-    border: "border-[#22c55e]/20",
-    dot: "bg-[#22c55e]",
-  },
-  Caution: {
-    label: "Caution",
-    color: "text-[#f97316]",
-    bg: "bg-[#f97316]/10",
-    border: "border-[#f97316]/20",
-    dot: "bg-[#f97316]",
-  },
-  Trigger: {
-    label: "IBS Trigger",
-    color: "text-[#ef4444]",
-    bg: "bg-[#ef4444]/10",
-    border: "border-[#ef4444]/20",
-    dot: "bg-[#ef4444]",
-  },
-};
-
-const typeConfig = {
-  "Natural Sweetener": {
-    bg: "bg-emerald-50 text-emerald-700",
-    darkBg: "dark:bg-emerald-950/40 dark:text-emerald-400",
-  },
-  Artificial: { bg: "bg-sky-50 text-sky-700", darkBg: "dark:bg-sky-950/40 dark:text-sky-400" },
-  "Sugar Alcohol": {
-    bg: "bg-violet-50 text-violet-700",
-    darkBg: "dark:bg-violet-950/40 dark:text-violet-400",
-  },
-  Sugar: { bg: "bg-amber-50 text-amber-700", darkBg: "dark:bg-amber-950/40 dark:text-amber-400" },
-};
 
 export function SweetenerCard({ sweetener }: SweetenerCardProps) {
   const status = statusConfig[sweetener.ibsStatus];
