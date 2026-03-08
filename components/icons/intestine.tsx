@@ -1,29 +1,22 @@
 import type { SVGProps } from "react";
 
-export function IntestineIcon({ size = 24, className, ...props }: SVGProps<SVGSVGElement> & { size?: number }) {
+export function IntestineIcon({
+  size = 24,
+  className,
+  ...props
+}: SVGProps<SVGSVGElement> & { size?: number }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
+      viewBox="20 8 62 84"
+      fill="currentColor"
       aria-hidden="true"
+      className={className}
       {...props}
     >
-      {/* Outer frame — large intestine border, clockwise */}
-      <path d="M7 2 H17 Q19 2 19 4 V20 Q19 22 17 22 H7 Q5 22 5 20 V4 Q5 2 7 2 Z" />
-      {/* Inner coiled path — enters top-left, snakes down in haustral folds */}
-      <path d="M8 5 Q11 5 11 7 Q11 9 8 9 Q8 11 11 11 Q11 13 8 13 Q8 15 11 15 Q11 17 8 17" />
-      {/* Right descending return column */}
-      <path d="M16 5 L16 19" />
-      {/* Bottom crossbar connecting left coil to right descender */}
-      <path d="M8 19 Q12 21 16 19" />
+      <path d="M22.81 57.07a9.95 9.95 0 0 1-2.93-6.76c-.08-2.61.92-5.12 2.81-7.07 2-2.06 4.78-3.24 7.6-3.24h.62c-.17-.13-.32-.28-.48-.43a9.94 9.94 0 0 1-2.93-7.07c0-5.51 4.49-10 10-10h10.42c1.13 0 2.06-.92 2.06-2.06V10h2.5v10.43a4.57 4.57 0 0 1-4.56 4.56H37.5c-4.13 0-7.5 3.38-7.5 7.5 0 2.01.78 3.89 2.2 5.31 1.43 1.41 3.31 2.2 5.31 2.2h24.74c.68 0 1.25.57 1.25 1.25 0 .7-.57 1.25-1.25 1.25H30.29c-2.16 0-4.29.92-5.82 2.5-1.41 1.45-2.16 3.33-2.1 5.24.05 1.93.83 3.73 2.2 5.07a7.46 7.46 0 0 0 5.31 2.2H68.9c.68 0 1.25.57 1.25 1.25 0 .7-.57 1.25-1.25 1.25H43.19c-4.14 0-7.5 3.38-7.5 7.5 0 2.01.78 3.89 2.2 5.31a7.46 7.46 0 0 0 5.31 2.2h4.71a5.98 5.98 0 0 1 5.97 5.97V90h-2.5v-9.02c0-1.91-1.56-3.48-3.48-3.48h-4.71c-2.68 0-5.19-1.03-7.07-2.93-1.9-1.88-2.93-4.39-2.93-7.07 0-2.98 1.31-5.67 3.41-7.5h-6.72c-2.68 0-5.19-1.03-7.07-2.93m47.32-8.32h-.07c2.08-1.83 3.41-4.51 3.41-7.5 0-5.51-4.49-10-10-10H55.9c3.21-2.35 5.32-6.14 5.32-10.42V10h-2.5v10.83c0 5.74-4.68 10.42-10.42 10.42h-9.58c-.68 0-1.25.57-1.25 1.25 0 .7.57 1.25 1.25 1.25h24.74c4.14 0 7.5 3.38 7.5 7.5 0 4.14-3.36 7.5-7.5 7.5H31.11c-.7 0-1.25.57-1.25 1.25 0 .7.55 1.25 1.25 1.25h39.02c4.14 0 7.5 3.36 7.5 7.5s-3.36 7.5-7.5 7.5H44.42c-.7 0-1.25.57-1.25 1.25 0 .7.55 1.25 1.25 1.25h4.71c6.06 0 10.98 4.93 10.98 10.98V90h2.5V79.73c0-4.53-2.26-8.54-5.69-10.98h13.23c5.51-.02 9.98-4.49 9.98-10s-4.49-10-10-10" />
     </svg>
   );
 }
