@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, Activity } from "lucide-react";
+import { Search, Salad } from "lucide-react";
 import { sweeteners } from "@/src/data/sweeteners";
-import type { IBSStatus, SweetenerType } from "@/src/types"; // IBSStatus used by filter state
+import type { IBSStatus, SweetenerType } from "@/src/types";
 import { SweetenerCard } from "@/components/sweetener-card";
 import { FilterChips } from "@/components/filter-chips";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -12,24 +12,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
-  const [activeStatuses, setActiveStatuses] = useState<Set<IBSStatus>>(new Set());
-  const [activeTypes, setActiveTypes] = useState<Set<SweetenerType>>(new Set());
-
-  function toggleStatus(s: IBSStatus) {
-    setActiveStatuses((prev) => {
-      const next = new Set(prev);
-      next.has(s) ? next.delete(s) : next.add(s);
-      return next;
-    });
-  }
-
-  function toggleType(t: SweetenerType) {
-    setActiveTypes((prev) => {
-      const next = new Set(prev);
-      next.has(t) ? next.delete(t) : next.add(t);
-      return next;
-    });
-  }
+  const [activeStatus, setActiveStatus] = useState<IBSStatus | null>(null);
+  const [activeType, setActiveType] = useState<SweetenerType | null>(null);
 
   const filtered = useMemo(() => {
     let result = sweeteners;
@@ -40,11 +24,11 @@ export default function HomePage() {
         (s) => s.name.toLowerCase().includes(q) || s.code.includes(q)
       );
     }
-    if (activeStatuses.size > 0) {
-      result = result.filter((s) => activeStatuses.has(s.ibsStatus));
+    if (activeStatus) {
+      result = result.filter((s) => s.ibsStatus === activeStatus);
     }
-    if (activeTypes.size > 0) {
-      result = result.filter((s) => activeTypes.has(s.type));
+    if (activeType) {
+      result = result.filter((s) => s.type === activeType);
     }
 
     return [...result].sort((a, b) => {
@@ -52,10 +36,9 @@ export default function HomePage() {
       const numB = parseInt(b.code.replace(/\D/g, ""), 10);
       return numA - numB;
     });
-  }, [query, activeStatuses, activeTypes]);
+  }, [query, activeStatus, activeType]);
 
-  const isFiltered =
-    query.trim() !== "" || activeStatuses.size > 0 || activeTypes.size > 0;
+  const isFiltered = query.trim() !== "" || activeStatus !== null || activeType !== null;
 
   return (
     <main className="min-h-screen bg-background">
@@ -65,16 +48,11 @@ export default function HomePage() {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <div className="p-1.5 rounded-lg bg-primary/10">
-                <Activity size={18} className="text-primary" />
+                <Salad size={18} className="text-primary" />
               </div>
-              <div>
-                <h1 className="text-base font-bold text-foreground leading-none">
-                  IBS Sweetener Guide
-                </h1>
-                <p className="text-xs text-muted-foreground leading-none mt-0.5">
-                  FSANZ &amp; Monash FODMAP
-                </p>
-              </div>
+              <h1 className="text-base font-bold text-foreground leading-none">
+                IBS Sweetener Guide
+              </h1>
             </div>
             <ThemeToggle />
           </div>
@@ -97,10 +75,10 @@ export default function HomePage() {
 
           {/* Filter chips */}
           <FilterChips
-            activeStatuses={activeStatuses}
-            activeTypes={activeTypes}
-            onToggleStatus={toggleStatus}
-            onToggleType={toggleType}
+            activeStatus={activeStatus}
+            activeType={activeType}
+            onSelectStatus={setActiveStatus}
+            onSelectType={setActiveType}
           />
         </div>
       </header>
@@ -132,9 +110,14 @@ export default function HomePage() {
             </p>
           </div>
         )}
+
+        {/* Footer disclaimer */}
+        <footer className="pt-6 pb-4">
+          <p className="text-xs text-muted-foreground/60 text-center leading-relaxed">
+            Based on FSANZ and Monash University FODMAP guidelines. Not medical advice — consult a dietitian for personalised guidance.
+          </p>
+        </footer>
       </div>
-
-
     </main>
   );
 }

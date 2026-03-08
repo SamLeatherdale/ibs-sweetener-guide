@@ -65,29 +65,31 @@ const typeOptions: {
 ];
 
 interface FilterChipsProps {
-  activeStatuses: Set<IBSStatus>;
-  activeTypes: Set<SweetenerType>;
-  onToggleStatus: (s: IBSStatus) => void;
-  onToggleType: (t: SweetenerType) => void;
+  activeStatus: IBSStatus | null;
+  activeType: SweetenerType | null;
+  onSelectStatus: (s: IBSStatus | null) => void;
+  onSelectType: (t: SweetenerType | null) => void;
 }
 
 export function FilterChips({
-  activeStatuses,
-  activeTypes,
-  onToggleStatus,
-  onToggleType,
+  activeStatus,
+  activeType,
+  onSelectStatus,
+  onSelectType,
 }: FilterChipsProps) {
   return (
     <div className="flex flex-col gap-2">
       {/* IBS Safety row */}
-      <div className="flex gap-1.5 flex-wrap" role="group" aria-label="Filter by IBS safety">
+      <div className="flex gap-1.5 flex-wrap" role="radiogroup" aria-label="Filter by IBS safety">
         {ibsOptions.map(({ value, label, icon: Icon, activeClass, hoverClass }) => {
-          const active = activeStatuses.has(value);
+          const active = activeStatus === value;
           return (
             <button
               key={value}
-              onClick={() => onToggleStatus(value)}
+              onClick={() => onSelectStatus(active ? null : value)}
               aria-pressed={active}
+              role="radio"
+              aria-checked={active}
               className={cn(
                 "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all duration-150",
                 active
@@ -103,14 +105,16 @@ export function FilterChips({
       </div>
 
       {/* Type row */}
-      <div className="flex gap-1.5 flex-wrap" role="group" aria-label="Filter by sweetener type">
+      <div className="flex gap-1.5 flex-wrap" role="radiogroup" aria-label="Filter by sweetener type">
         {typeOptions.map(({ value, label, icon: Icon, activeClass, hoverClass }) => {
-          const active = activeTypes.has(value);
+          const active = activeType === value;
           return (
             <button
               key={value}
-              onClick={() => onToggleType(value)}
+              onClick={() => onSelectType(active ? null : value)}
               aria-pressed={active}
+              role="radio"
+              aria-checked={active}
               className={cn(
                 "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all duration-150",
                 active
