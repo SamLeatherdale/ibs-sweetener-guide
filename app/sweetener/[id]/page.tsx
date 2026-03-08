@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { sweeteners } from "@/src/data/sweeteners";
-import { ArrowLeft, Tag, UtensilsCrossed } from "lucide-react";
+import { Tag, UtensilsCrossed } from "lucide-react";
+import { BackButton } from "@/components/back-button";
 import { cn } from "@/lib/utils";
 import { statusConfig, typeConfig } from "@/src/config/sweetener-config";
 
@@ -34,14 +34,7 @@ export default async function SweetenerDetailPage({ params }: { params: Promise<
       {/* Sticky back bar */}
       <header className="bg-background/80 border-border sticky top-0 z-30 border-b backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-lg items-center gap-3 px-4">
-          <Link
-            href="/"
-            className="text-muted-foreground hover:text-foreground -ml-1 inline-flex items-center gap-1.5 py-2 pr-2 text-sm font-medium transition-colors"
-            aria-label="Back to sweetener list"
-          >
-            <ArrowLeft size={18} />
-            All Sweeteners
-          </Link>
+          <BackButton />
         </div>
       </header>
 
@@ -91,7 +84,7 @@ export default async function SweetenerDetailPage({ params }: { params: Promise<
                   )}
                 >
                   <TypeIcon size={11} />
-                  {sweetener.type}
+                  {type.label}
                 </span>
 
                 {/* Status pill */}

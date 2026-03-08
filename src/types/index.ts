@@ -1,5 +1,5 @@
-export type SweetenerType = "Natural Sweetener" | "Artificial" | "Sugar Alcohol" | "Sugar";
-export type IBSStatus = "Safe" | "Caution" | "Trigger";
+export type IBSStatus = "safe" | "caution" | "trigger";
+export type SweetenerType = "natural" | "artificial" | "alcohol" | "sugar";
 
 export interface Sweetener {
   id: string;

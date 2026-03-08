@@ -50,34 +50,34 @@ function FilterChip({
 
 interface FilterChipRowProps<T extends string> {
   options: {
-    value: T;
+    id: T;
     label: string;
     icon: React.ElementType;
     activeClass: string;
     hoverClass: string;
   }[];
-  activeValue: T | null;
+  activeId: T | null;
   ariaLabel: string;
-  onSelect?: (value: T | null) => void;
+  onSelect?: (id: T | null) => void;
 }
 
 function FilterChipRow<T extends string>({
   options,
-  activeValue,
+  activeId,
   ariaLabel,
   onSelect,
 }: FilterChipRowProps<T>) {
   return (
     <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label={ariaLabel}>
-      {options.map(({ value, label, icon, activeClass, hoverClass }) => (
+      {options.map(({ id, label, icon, activeClass, hoverClass }) => (
         <FilterChip
-          key={value}
+          key={id}
           label={label}
           icon={icon}
-          active={activeValue === value}
+          active={activeId === id}
           activeClass={activeClass}
           hoverClass={hoverClass}
-          onClick={onSelect ? () => onSelect(activeValue === value ? null : value) : undefined}
+          onClick={onSelect ? () => onSelect(activeId === id ? null : id) : undefined}
         />
       ))}
     </div>
@@ -87,8 +87,8 @@ function FilterChipRow<T extends string>({
 interface FilterChipsProps {
   activeStatus?: IBSStatus | null;
   activeType?: SweetenerType | null;
-  onSelectStatus?: (s: IBSStatus | null) => void;
-  onSelectType?: (t: SweetenerType | null) => void;
+  onSelectStatus?: (id: IBSStatus | null) => void;
+  onSelectType?: (id: SweetenerType | null) => void;
 }
 
 export function FilterChips({
@@ -101,13 +101,13 @@ export function FilterChips({
     <div className="flex flex-col gap-2">
       <FilterChipRow
         options={ibsStatusOptions}
-        activeValue={activeStatus}
+        activeId={activeStatus}
         ariaLabel="Filter by IBS safety"
         onSelect={onSelectStatus}
       />
       <FilterChipRow
         options={sweetenerTypeOptions}
-        activeValue={activeType}
+        activeId={activeType}
         ariaLabel="Filter by sweetener type"
         onSelect={onSelectType}
       />

@@ -58,7 +58,7 @@ export function SweetenerCard({ sweetener }: SweetenerCardProps) {
               type.darkBg,
             )}
           >
-            {sweetener.type}
+            {type.label}
           </span>
         </div>
       </div>

@@ -26,7 +26,7 @@ export const statusConfig: Record<
     hoverClass: string;
   }
 > = {
-  Safe: {
+  safe: {
     label: "IBS Safe",
     icon: ShieldCheck,
     color: "text-[#22c55e]",
@@ -41,7 +41,7 @@ export const statusConfig: Record<
     activeClass: "bg-[#22c55e] text-white border-[#22c55e]",
     hoverClass: "hover:border-[#22c55e]/60 hover:text-[#22c55e]",
   },
-  Caution: {
+  caution: {
     label: "Caution",
     icon: AlertTriangle,
     color: "text-[#f97316]",
@@ -56,7 +56,7 @@ export const statusConfig: Record<
     activeClass: "bg-[#f97316] text-white border-[#f97316]",
     hoverClass: "hover:border-[#f97316]/60 hover:text-[#f97316]",
   },
-  Trigger: {
+  trigger: {
     label: "IBS Trigger",
     icon: ShieldX,
     color: "text-[#ef4444]",
@@ -76,6 +76,7 @@ export const statusConfig: Record<
 export const typeConfig: Record<
   SweetenerType,
   {
+    label: string;
     icon: React.ElementType;
     bg: string;
     darkBg: string;
@@ -84,7 +85,8 @@ export const typeConfig: Record<
     hoverClass: string;
   }
 > = {
-  "Natural Sweetener": {
+  natural: {
+    label: "Natural",
     icon: Leaf,
     bg: "bg-emerald-50 text-emerald-700",
     darkBg: "dark:bg-emerald-950/40 dark:text-emerald-400",
@@ -92,7 +94,8 @@ export const typeConfig: Record<
     activeClass: "bg-emerald-500 text-white border-emerald-500",
     hoverClass: "hover:border-emerald-500/60 hover:text-emerald-600",
   },
-  Artificial: {
+  artificial: {
+    label: "Artificial",
     icon: FlaskConical,
     bg: "bg-sky-50 text-sky-700",
     darkBg: "dark:bg-sky-950/40 dark:text-sky-400",
@@ -100,7 +103,8 @@ export const typeConfig: Record<
     activeClass: "bg-sky-500 text-white border-sky-500",
     hoverClass: "hover:border-sky-500/60 hover:text-sky-600",
   },
-  "Sugar Alcohol": {
+  alcohol: {
+    label: "Sugar Alcohol",
     icon: Droplets,
     bg: "bg-violet-50 text-violet-700",
     darkBg: "dark:bg-violet-950/40 dark:text-violet-400",
@@ -108,7 +112,8 @@ export const typeConfig: Record<
     activeClass: "bg-violet-500 text-white border-violet-500",
     hoverClass: "hover:border-violet-500/60 hover:text-violet-600",
   },
-  Sugar: {
+  sugar: {
+    label: "Sugar",
     icon: Box,
     bg: "bg-amber-50 text-amber-700",
     darkBg: "dark:bg-amber-950/40 dark:text-amber-400",
@@ -118,18 +123,18 @@ export const typeConfig: Record<
   },
 };
 
-export const ibsStatusOptions = (Object.keys(statusConfig) as IBSStatus[]).map((value) => ({
-  value,
-  label: statusConfig[value].label,
-  icon: statusConfig[value].icon,
-  activeClass: statusConfig[value].activeClass,
-  hoverClass: statusConfig[value].hoverClass,
+export const ibsStatusOptions = (Object.keys(statusConfig) as IBSStatus[]).map((id) => ({
+  id,
+  label: statusConfig[id].label,
+  icon: statusConfig[id].icon,
+  activeClass: statusConfig[id].activeClass,
+  hoverClass: statusConfig[id].hoverClass,
 }));
 
-export const sweetenerTypeOptions = (Object.keys(typeConfig) as SweetenerType[]).map((value) => ({
-  value,
-  label: value,
-  icon: typeConfig[value].icon,
-  activeClass: typeConfig[value].activeClass,
-  hoverClass: typeConfig[value].hoverClass,
+export const sweetenerTypeOptions = (Object.keys(typeConfig) as SweetenerType[]).map((id) => ({
+  id,
+  label: typeConfig[id].label,
+  icon: typeConfig[id].icon,
+  activeClass: typeConfig[id].activeClass,
+  hoverClass: typeConfig[id].hoverClass,
 }));

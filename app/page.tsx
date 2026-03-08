@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { Search } from "lucide-react";
+import { useMemo, useTransition, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { Search, Info } from "lucide-react";
 import { IntestineIcon } from "@/components/icons/intestine";
 import { sweeteners } from "@/src/data/sweeteners";
 import type { IBSStatus, SweetenerType } from "@/src/types";
@@ -10,9 +12,52 @@ import { FilterChips } from "@/components/filter-chips";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function HomePage() {
-  const [query, setQuery] = useState("");
-  const [activeStatus, setActiveStatus] = useState<IBSStatus | null>(null);
-  const [activeType, setActiveType] = useState<SweetenerType | null>(null);
+  return (
+    <Suspense>
+      <HomePageContent />
+    </Suspense>
+  );
+}
+
+function HomePageContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [, startTransition] = useTransition();
+
+  const query = searchParams.get("q") ?? "";
+  const activeStatus = (searchParams.get("status") as IBSStatus) || null;
+  const activeType = (searchParams.get("type") as SweetenerType) || null;
+
+  function updateParams(updates: {
+    q?: string | null;
+    status?: string | null;
+    type?: string | null;
+  }) {
+    const params = new URLSearchParams(searchParams.toString());
+    for (const [key, value] of Object.entries(updates)) {
+      if (value) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+    }
+    const search = params.toString();
+    startTransition(() => {
+      router.replace(search ? `/?${search}` : "/", { scroll: false });
+    });
+  }
+
+  function setQuery(value: string) {
+    updateParams({ q: value || null });
+  }
+
+  function setActiveStatus(value: IBSStatus | null) {
+    updateParams({ status: value });
+  }
+
+  function setActiveType(value: SweetenerType | null) {
+    updateParams({ type: value });
+  }
 
   const filtered = useMemo(() => {
     let result = sweeteners;
@@ -59,7 +104,14 @@ export default function HomePage() {
                 IBS Sweetener Guide
               </h1>
             </div>
-            <ThemeToggle />
+            <Link
+              href="/about"
+              className="text-muted-foreground hover:text-foreground flex items-center gap-1 rounded-lg p-1 text-xs font-medium transition-colors"
+              aria-label="About this guide"
+            >
+              <Info size={16} />
+              <span className="hidden min-[360px]:inline">About</span>
+            </Link>
           </div>
 
           {/* Search */}
@@ -114,12 +166,15 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Footer disclaimer */}
+        {/* Footer */}
         <footer className="pt-6 pb-4">
           <p className="text-muted-foreground/60 text-center text-xs leading-relaxed">
             Based on FSANZ and Monash University FODMAP guidelines. Not medical advice — consult a
             dietitian for personalised guidance.
           </p>
+          <div className="mt-3 flex justify-center">
+            <ThemeToggle />
+          </div>
         </footer>
       </div>
     </main>
