@@ -117,26 +117,12 @@ export default function HomePage() {
         {filtered.length > 0 ? (
           <ul className="space-y-2.5" role="list" aria-label="Sweetener list">
             {filtered.map((sweetener) => (
-              <>
-                <li key={sweetener.id}>
-                  <SweetenerCard
-                    sweetener={sweetener}
-                    onClick={(s) =>
-                      setSelectedSweetener(
-                        selectedSweetener?.id === s.id ? null : s
-                      )
-                    }
-                  />
-                </li>
-                {selectedSweetener?.id === sweetener.id && (
-                  <li key={`${sweetener.id}-detail`}>
-                    <SweetenerDrawer
-                      sweetener={selectedSweetener}
-                      onClose={() => setSelectedSweetener(null)}
-                    />
-                  </li>
-                )}
-              </>
+              <li key={sweetener.id}>
+                <SweetenerCard
+                  sweetener={sweetener}
+                  onClick={setSelectedSweetener}
+                />
+              </li>
             ))}
           </ul>
         ) : (
@@ -150,6 +136,12 @@ export default function HomePage() {
           </div>
         )}
       </div>
+
+      {/* Fullscreen detail panel */}
+      <SweetenerDrawer
+        sweetener={selectedSweetener}
+        onClose={() => setSelectedSweetener(null)}
+      />
     </main>
   );
 }
