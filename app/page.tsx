@@ -3,12 +3,12 @@
 import { useState, useMemo } from "react";
 import { Search, Activity } from "lucide-react";
 import { sweeteners } from "@/src/data/sweeteners";
-import type { IBSStatus, SweetenerType } from "@/src/types";
+import type { IBSStatus, SweetenerType } from "@/src/types"; // IBSStatus used by filter state
 import { SweetenerCard } from "@/components/sweetener-card";
 import { FilterChips } from "@/components/filter-chips";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-const statusOrder: Record<IBSStatus, number> = { Trigger: 0, Caution: 1, Safe: 2 };
+
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
@@ -47,9 +47,11 @@ export default function HomePage() {
       result = result.filter((s) => activeTypes.has(s.type));
     }
 
-    return [...result].sort(
-      (a, b) => statusOrder[a.ibsStatus] - statusOrder[b.ibsStatus]
-    );
+    return [...result].sort((a, b) => {
+      const numA = parseInt(a.code.replace(/\D/g, ""), 10);
+      const numB = parseInt(b.code.replace(/\D/g, ""), 10);
+      return numA - numB;
+    });
   }, [query, activeStatuses, activeTypes]);
 
   const isFiltered =
