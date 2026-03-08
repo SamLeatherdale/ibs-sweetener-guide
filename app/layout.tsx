@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -11,16 +11,21 @@ export const metadata: Metadata = {
   title: 'IBS Sweetener Guide',
   description: 'A quick-reference guide to sweetener safety for IBS sufferers, based on FSANZ and Monash University FODMAP guidelines.',
   generator: 'v0.app',
-  manifest: '/manifest.json',
+  applicationName: 'IBS Sweetener Guide',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
     title: 'IBS Sweetener Guide',
   },
+  formatDetection: { telephone: false },
   icons: {
     icon: '/icon-512.jpg',
     apple: '/icon-512.jpg',
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#0d9488',
 }
 
 export default function RootLayout({
