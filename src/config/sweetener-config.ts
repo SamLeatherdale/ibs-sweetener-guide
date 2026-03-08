@@ -131,7 +131,9 @@ export const ibsStatusOptions = (Object.keys(statusConfig) as IBSStatus[]).map((
   hoverClass: statusConfig[id].hoverClass,
 }));
 
-export const sweetenerTypeOptions = (Object.keys(typeConfig) as SweetenerType[]).map((id) => ({
+const sweetenerTypeOrder: SweetenerType[] = ["natural", "artificial", "sugar", "alcohol"];
+
+export const sweetenerTypeOptions = sweetenerTypeOrder.map((id) => ({
   id,
   label: typeConfig[id].label,
   icon: typeConfig[id].icon,

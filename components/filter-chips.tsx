@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import type { IBSStatus, SweetenerType } from "@/src/types";
 import { ibsStatusOptions, sweetenerTypeOptions } from "@/src/config/sweetener-config";
@@ -22,7 +23,7 @@ function FilterChip({
   onClick,
 }: FilterChipProps) {
   const className = cn(
-    "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold",
+    "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold whitespace-nowrap",
     active
       ? cn(activeClass, "shadow-sm")
       : onClick
@@ -58,28 +59,81 @@ interface FilterChipRowProps<T extends string> {
   }[];
   activeId: T | null;
   ariaLabel: string;
+  scrollable?: boolean;
   onSelect?: (id: T | null) => void;
+}
+
+function ScrollableChipRow({
+  ariaLabel,
+  children,
+}: {
+  ariaLabel: string;
+  children: React.ReactNode;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [showLeft, setShowLeft] = useState(false);
+  const [showRight, setShowRight] = useState(true);
+
+  const update = useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    setShowLeft(el.scrollLeft > 0);
+    setShowRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, []);
+
+  return (
+    <div className="relative">
+      <div
+        ref={ref}
+        className="scrollbar-none flex items-center gap-1.5 overflow-x-auto"
+        role="radiogroup"
+        aria-label={ariaLabel}
+        onScroll={update}
+      >
+        {children}
+      </div>
+      <div
+        className={cn(
+          "from-background pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r to-transparent transition-opacity duration-150",
+          showLeft ? "opacity-100" : "opacity-0",
+        )}
+      />
+      <div
+        className={cn(
+          "from-background pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l to-transparent transition-opacity duration-150",
+          showRight ? "opacity-100" : "opacity-0",
+        )}
+      />
+    </div>
+  );
 }
 
 function FilterChipRow<T extends string>({
   options,
   activeId,
   ariaLabel,
+  scrollable,
   onSelect,
 }: FilterChipRowProps<T>) {
+  const chips = options.map(({ id, label, icon, activeClass, hoverClass }) => (
+    <FilterChip
+      key={id}
+      label={label}
+      icon={icon}
+      active={activeId === id}
+      activeClass={activeClass}
+      hoverClass={hoverClass}
+      onClick={onSelect ? () => onSelect(activeId === id ? null : id) : undefined}
+    />
+  ));
+
+  if (scrollable) {
+    return <ScrollableChipRow ariaLabel={ariaLabel}>{chips}</ScrollableChipRow>;
+  }
+
   return (
-    <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label={ariaLabel}>
-      {options.map(({ id, label, icon, activeClass, hoverClass }) => (
-        <FilterChip
-          key={id}
-          label={label}
-          icon={icon}
-          active={activeId === id}
-          activeClass={activeClass}
-          hoverClass={hoverClass}
-          onClick={onSelect ? () => onSelect(activeId === id ? null : id) : undefined}
-        />
-      ))}
+    <div className="flex flex-wrap items-center gap-1.5" role="radiogroup" aria-label={ariaLabel}>
+      {chips}
     </div>
   );
 }
@@ -109,6 +163,7 @@ export function FilterChips({
         options={sweetenerTypeOptions}
         activeId={activeType}
         ariaLabel="Filter by sweetener type"
+        scrollable
         onSelect={onSelectType}
       />
     </div>
