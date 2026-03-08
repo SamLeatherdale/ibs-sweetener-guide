@@ -1,6 +1,6 @@
 # IBS Sweetener Guide
 
-A mobile-first reference app for IBS sufferers to quickly look up whether a sweetener (by name, E number, or alias) is safe, a caution, or a known IBS trigger — based on FSANZ and Monash University FODMAP guidelines.
+A mobile-first reference app to quickly look up whether a sweetener (by name, E number, or alias) is safe, a caution, or a known IBS trigger — based on FSANZ and Monash University FODMAP guidelines.
 
 ---
 
@@ -9,8 +9,8 @@ A mobile-first reference app for IBS sufferers to quickly look up whether a swee
 | Layer | Technology |
 |---|---|
 | Framework | Next.js 16 (App Router) |
-| Language | TypeScript 5.7 |
-| UI Library | React 19 |
+| Language | TypeScript |
+| UI Library | React |
 | Styling | Tailwind CSS v4 |
 | Component Primitives | Radix UI (via shadcn/ui) |
 | Icons | Lucide React |
@@ -26,8 +26,6 @@ A mobile-first reference app for IBS sufferers to quickly look up whether a swee
 
 - Sweetener data is statically defined in `src/data/sweeteners.ts` with full TypeScript types (`src/types/index.ts`)
 - Each sweetener has: name, E number/code, aliases, type (Natural / Artificial / Sugar Alcohol), IBS status (Safe / Caution / Trigger), a short description, IBS-specific advice, and optionally a daily limit and notes
-- Data is based on FSANZ and Monash University FODMAP guidelines
-- A disclaimer ("Not medical advice — consult a dietitian") appears on both the list page footer and each individual sweetener detail page
 
 ### Routing & Navigation
 
