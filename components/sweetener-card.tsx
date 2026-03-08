@@ -31,9 +31,16 @@ const statusConfig = {
 };
 
 const typeConfig = {
-  Natural: { bg: "bg-emerald-50 text-emerald-700", darkBg: "dark:bg-emerald-950/40 dark:text-emerald-400" },
+  "Natural Sweetener": {
+    bg: "bg-emerald-50 text-emerald-700",
+    darkBg: "dark:bg-emerald-950/40 dark:text-emerald-400",
+  },
   Artificial: { bg: "bg-sky-50 text-sky-700", darkBg: "dark:bg-sky-950/40 dark:text-sky-400" },
-  "Sugar Alcohol": { bg: "bg-violet-50 text-violet-700", darkBg: "dark:bg-violet-950/40 dark:text-violet-400" },
+  "Sugar Alcohol": {
+    bg: "bg-violet-50 text-violet-700",
+    darkBg: "dark:bg-violet-950/40 dark:text-violet-400",
+  },
+  Sugar: { bg: "bg-amber-50 text-amber-700", darkBg: "dark:bg-amber-950/40 dark:text-amber-400" },
 };
 
 export function SweetenerCard({ sweetener }: SweetenerCardProps) {
@@ -43,37 +50,48 @@ export function SweetenerCard({ sweetener }: SweetenerCardProps) {
   return (
     <Link
       href={`/sweetener/${sweetener.id}`}
-      className="w-full text-left bg-card border border-border rounded-2xl p-4 flex items-center gap-4 hover:bg-accent/40 active:scale-[0.98] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      aria-label={`View details for ${sweetener.name}, E number ${sweetener.code}`}
+      className="bg-card border-border hover:bg-accent/40 focus-visible:ring-ring flex w-full items-center gap-4 rounded-2xl border p-4 text-left transition-all duration-150 focus-visible:ring-2 focus-visible:outline-none active:scale-[0.98]"
+      aria-label={`View details for ${sweetener.name}${/^\d/.test(sweetener.code) ? `, E number ${sweetener.code}` : ""}`}
     >
-      {/* E-number badge */}
+      {/* Code badge */}
       <div
         className={cn(
-          "shrink-0 w-14 h-14 rounded-xl flex flex-col items-center justify-center",
+          "flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl",
           status.bg,
           status.border,
-          "border"
+          "border",
         )}
       >
-        <span className="text-[10px] font-semibold text-muted-foreground leading-none mb-0.5">E</span>
-        <span className={cn("text-xl font-bold leading-none tabular-nums", status.color)}>
-          {sweetener.code}
-        </span>
+        {/^\d/.test(sweetener.code) ? (
+          <>
+            <span className="text-muted-foreground mb-0.5 text-[10px] leading-none font-semibold">
+              E
+            </span>
+            <span className={cn("text-xl leading-none font-bold tabular-nums", status.color)}>
+              {sweetener.code}
+            </span>
+          </>
+        ) : (
+          <span className={cn("text-2xl leading-none font-bold tracking-tight", status.color)}>
+            <span>{sweetener.code[0]}</span>
+            <span className="text-base">{sweetener.code[1]}</span>
+          </span>
+        )}
       </div>
 
       {/* Main info */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
-          <h3 className="font-semibold text-foreground text-base leading-tight truncate">
+      <div className="min-w-0 flex-1">
+        <div className="mb-1 flex items-center gap-2">
+          <h3 className="text-foreground truncate text-base leading-tight font-semibold">
             {sweetener.name}
           </h3>
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex flex-wrap items-center gap-2">
           <span
             className={cn(
-              "inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full",
+              "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium",
               type.bg,
-              type.darkBg
+              type.darkBg,
             )}
           >
             {sweetener.type}
@@ -84,12 +102,12 @@ export function SweetenerCard({ sweetener }: SweetenerCardProps) {
       {/* Status pill */}
       <div
         className={cn(
-          "shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold",
+          "inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
           status.bg,
-          status.color
+          status.color,
         )}
       >
-        <span className={cn("w-1.5 h-1.5 rounded-full", status.dot)} />
+        <span className={cn("h-1.5 w-1.5 rounded-full", status.dot)} />
         {status.label}
       </div>
     </Link>

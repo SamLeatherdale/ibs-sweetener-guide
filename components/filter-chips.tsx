@@ -2,7 +2,15 @@
 
 import { cn } from "@/lib/utils";
 import type { IBSStatus, SweetenerType } from "@/src/types";
-import { ShieldCheck, AlertTriangle, ShieldX, Leaf, FlaskConical, Droplets } from "lucide-react";
+import {
+  ShieldCheck,
+  AlertTriangle,
+  ShieldX,
+  Leaf,
+  FlaskConical,
+  Droplets,
+  Candy,
+} from "lucide-react";
 
 const ibsOptions: {
   value: IBSStatus;
@@ -42,8 +50,8 @@ const typeOptions: {
   hoverClass: string;
 }[] = [
   {
-    value: "Natural",
-    label: "Natural",
+    value: "Natural Sweetener",
+    label: "Natural Sweetener",
     icon: Leaf,
     activeClass: "bg-emerald-500 text-white border-emerald-500",
     hoverClass: "hover:border-emerald-500/60 hover:text-emerald-600",
@@ -61,6 +69,13 @@ const typeOptions: {
     icon: Droplets,
     activeClass: "bg-violet-500 text-white border-violet-500",
     hoverClass: "hover:border-violet-500/60 hover:text-violet-600",
+  },
+  {
+    value: "Sugar",
+    label: "Sugar",
+    icon: Candy,
+    activeClass: "bg-amber-500 text-white border-amber-500",
+    hoverClass: "hover:border-amber-500/60 hover:text-amber-600",
   },
 ];
 
@@ -80,7 +95,7 @@ export function FilterChips({
   return (
     <div className="flex flex-col gap-2">
       {/* IBS Safety row */}
-      <div className="flex gap-1.5 flex-wrap" role="radiogroup" aria-label="Filter by IBS safety">
+      <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Filter by IBS safety">
         {ibsOptions.map(({ value, label, icon: Icon, activeClass, hoverClass }) => {
           const active = activeStatus === value;
           return (
@@ -91,10 +106,10 @@ export function FilterChips({
               role="radio"
               aria-checked={active}
               className={cn(
-                "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all duration-150",
+                "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-all duration-150",
                 active
                   ? cn(activeClass, "shadow-sm")
-                  : cn("bg-background text-muted-foreground border-border", hoverClass)
+                  : cn("bg-background text-muted-foreground border-border", hoverClass),
               )}
             >
               <Icon size={12} />
@@ -105,7 +120,11 @@ export function FilterChips({
       </div>
 
       {/* Type row */}
-      <div className="flex gap-1.5 flex-wrap" role="radiogroup" aria-label="Filter by sweetener type">
+      <div
+        className="flex flex-wrap gap-1.5"
+        role="radiogroup"
+        aria-label="Filter by sweetener type"
+      >
         {typeOptions.map(({ value, label, icon: Icon, activeClass, hoverClass }) => {
           const active = activeType === value;
           return (
@@ -116,10 +135,10 @@ export function FilterChips({
               role="radio"
               aria-checked={active}
               className={cn(
-                "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all duration-150",
+                "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-all duration-150",
                 active
                   ? cn(activeClass, "shadow-sm")
-                  : cn("bg-background text-muted-foreground border-border", hoverClass)
+                  : cn("bg-background text-muted-foreground border-border", hoverClass),
               )}
             >
               <Icon size={12} />

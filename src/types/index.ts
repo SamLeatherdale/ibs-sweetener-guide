@@ -1,4 +1,4 @@
-export type SweetenerType = "Natural" | "Artificial" | "Sugar Alcohol";
+export type SweetenerType = "Natural Sweetener" | "Artificial" | "Sugar Alcohol" | "Sugar";
 export type IBSStatus = "Safe" | "Caution" | "Trigger";
 
 export interface Sweetener {
@@ -7,7 +7,7 @@ export interface Sweetener {
   code: string;
   type: SweetenerType;
   ibsStatus: IBSStatus;
-  description: string;
-  alsKnownAs?: string;
+  description: string[];
+  alsoKnownAs?: string;
   commonUses?: string;
 }

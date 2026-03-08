@@ -9,6 +9,7 @@ import {
   Leaf,
   FlaskConical,
   Droplets,
+  Candy,
   Tag,
   UtensilsCrossed,
 } from "lucide-react";
@@ -54,7 +55,7 @@ const statusConfig = {
 };
 
 const typeConfig = {
-  Natural: {
+  "Natural Sweetener": {
     icon: Leaf,
     bg: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400",
   },
@@ -65,6 +66,10 @@ const typeConfig = {
   "Sugar Alcohol": {
     icon: Droplets,
     bg: "bg-violet-50 text-violet-700 dark:bg-violet-950/40 dark:text-violet-400",
+  },
+  Sugar: {
+    icon: Candy,
+    bg: "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400",
   },
 };
 
@@ -77,16 +82,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const sweetener = sweeteners.find((s) => s.id === id);
   if (!sweetener) return {};
   return {
-    title: `${sweetener.name} (E${sweetener.code}) — IBS Sweetener Guide`,
-    description: sweetener.description,
+    title: `${sweetener.name}${/^\d/.test(sweetener.code) ? ` (E${sweetener.code})` : ""} — IBS Sweetener Guide`,
+    description: sweetener.description.join(" "),
   };
 }
 
-export default async function SweetenerDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function SweetenerDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const sweetener = sweeteners.find((s) => s.id === id);
   if (!sweetener) notFound();
@@ -97,13 +98,13 @@ export default async function SweetenerDetailPage({
   const TypeIcon = type.icon;
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="bg-background min-h-screen">
       {/* Sticky back bar */}
-      <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-lg mx-auto px-4 h-14 flex items-center gap-3">
+      <header className="bg-background/80 border-border sticky top-0 z-30 border-b backdrop-blur-md">
+        <div className="mx-auto flex h-14 max-w-lg items-center gap-3 px-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors -ml-1 py-2 pr-2"
+            className="text-muted-foreground hover:text-foreground -ml-1 inline-flex items-center gap-1.5 py-2 pr-2 text-sm font-medium transition-colors"
             aria-label="Back to sweetener list"
           >
             <ArrowLeft size={18} />
@@ -112,32 +113,63 @@ export default async function SweetenerDetailPage({
         </div>
       </header>
 
-      <div className="max-w-lg mx-auto px-4 py-6 space-y-5">
+      <div className="mx-auto max-w-lg space-y-5 px-4 py-6">
         {/* Hero card */}
         <div className={cn("rounded-2xl border p-5", status.bg, status.border)}>
           <div className="flex items-start gap-4">
-            {/* E-number badge */}
-            <div className={cn("shrink-0 w-16 h-16 rounded-xl flex flex-col items-center justify-center bg-background/60 border", status.border)}>
-              <span className="text-[10px] font-semibold text-muted-foreground leading-none mb-0.5">E</span>
-              <span className={cn("text-2xl font-bold leading-none tabular-nums", status.color)}>
-                {sweetener.code}
-              </span>
+            {/* Code badge */}
+            <div
+              className={cn(
+                "bg-background/60 flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-xl border",
+                status.border,
+              )}
+            >
+              {/^\d/.test(sweetener.code) ? (
+                <>
+                  <span className="text-muted-foreground mb-0.5 text-[10px] leading-none font-semibold">
+                    E
+                  </span>
+                  <span
+                    className={cn("text-2xl leading-none font-bold tabular-nums", status.color)}
+                  >
+                    {sweetener.code}
+                  </span>
+                </>
+              ) : (
+                <span
+                  className={cn("text-3xl leading-none font-bold tracking-tight", status.color)}
+                >
+                  <span>{sweetener.code[0]}</span>
+                  <span className="text-xl">{sweetener.code[1]}</span>
+                </span>
+              )}
             </div>
 
-            <div className="flex-1 min-w-0">
-              <h1 className="text-xl font-bold text-foreground leading-tight text-balance">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-foreground text-xl leading-tight font-bold text-balance">
                 {sweetener.name}
               </h1>
 
-              <div className="flex flex-wrap gap-2 mt-2">
+              <div className="mt-2 flex flex-wrap gap-2">
                 {/* Type pill */}
-                <span className={cn("inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full", type.bg)}>
+                <span
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium",
+                    type.bg,
+                  )}
+                >
                   <TypeIcon size={11} />
                   {sweetener.type}
                 </span>
 
                 {/* Status pill */}
-                <span className={cn("inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full", status.badgeBg, status.color)}>
+                <span
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
+                    status.badgeBg,
+                    status.color,
+                  )}
+                >
                   <StatusIcon size={11} />
                   {status.label}
                 </span>
@@ -147,41 +179,39 @@ export default async function SweetenerDetailPage({
         </div>
 
         {/* IBS advice banner */}
-        <div className={cn("rounded-xl border p-4 flex gap-3", status.adviceBg, status.adviceBorder)}>
-          <StatusIcon size={18} className={cn("shrink-0 mt-0.5", status.color)} />
+        <div
+          className={cn("flex gap-3 rounded-xl border p-4", status.adviceBg, status.adviceBorder)}
+        >
+          <StatusIcon size={18} className={cn("mt-0.5 shrink-0", status.color)} />
           <div>
-            <p className={cn("text-sm font-semibold mb-0.5", status.color)}>
-              {status.label}
-            </p>
-            <p className="text-sm text-foreground/80 leading-relaxed">
-              {status.advice}
-            </p>
+            <p className={cn("mb-0.5 text-sm font-semibold", status.color)}>{status.label}</p>
+            <p className="text-foreground/80 text-sm leading-relaxed">{status.advice}</p>
           </div>
         </div>
 
         {/* Description */}
         <section>
-          <h2 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+          <h2 className="text-muted-foreground mb-2 text-xs font-semibold tracking-wide uppercase">
             About
           </h2>
-          <div className="bg-card border border-border rounded-xl p-4">
-            <p className="text-sm text-foreground leading-relaxed">
-              {sweetener.description}
-            </p>
+          <div className="bg-card border-border space-y-2 rounded-xl border p-4">
+            {sweetener.description.map((para, i) => (
+              <p key={i} className="text-foreground text-sm leading-relaxed">
+                {para}
+              </p>
+            ))}
           </div>
         </section>
 
         {/* Also known as */}
-        {sweetener.alsKnownAs && (
+        {sweetener.alsoKnownAs && (
           <section>
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+            <h2 className="text-muted-foreground mb-2 text-xs font-semibold tracking-wide uppercase">
               Also known as
             </h2>
-            <div className="bg-card border border-border rounded-xl p-4 flex gap-3">
-              <Tag size={16} className="shrink-0 mt-0.5 text-muted-foreground" />
-              <p className="text-sm text-foreground leading-relaxed">
-                {sweetener.alsKnownAs}
-              </p>
+            <div className="bg-card border-border flex gap-3 rounded-xl border p-4">
+              <Tag size={16} className="text-muted-foreground mt-0.5 shrink-0" />
+              <p className="text-foreground text-sm leading-relaxed">{sweetener.alsoKnownAs}</p>
             </div>
           </section>
         )}
@@ -189,21 +219,20 @@ export default async function SweetenerDetailPage({
         {/* Common uses */}
         {sweetener.commonUses && (
           <section>
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+            <h2 className="text-muted-foreground mb-2 text-xs font-semibold tracking-wide uppercase">
               Common uses
             </h2>
-            <div className="bg-card border border-border rounded-xl p-4 flex gap-3">
-              <UtensilsCrossed size={16} className="shrink-0 mt-0.5 text-muted-foreground" />
-              <p className="text-sm text-foreground leading-relaxed">
-                {sweetener.commonUses}
-              </p>
+            <div className="bg-card border-border flex gap-3 rounded-xl border p-4">
+              <UtensilsCrossed size={16} className="text-muted-foreground mt-0.5 shrink-0" />
+              <p className="text-foreground text-sm leading-relaxed">{sweetener.commonUses}</p>
             </div>
           </section>
         )}
 
         {/* Disclaimer */}
-        <p className="text-xs text-muted-foreground/70 text-center leading-relaxed pb-4">
-          Based on FSANZ and Monash University FODMAP guidelines. Not medical advice — consult a dietitian for personalised guidance.
+        <p className="text-muted-foreground/70 pb-4 text-center text-xs leading-relaxed">
+          Based on FSANZ and Monash University FODMAP guidelines. Not medical advice — consult a
+          dietitian for personalised guidance.
         </p>
       </div>
     </main>
