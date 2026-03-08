@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently -p none 'serwist build --watch --config serwist.config.mjs' 'next dev'",
-    "build": "next build && serwist build --config serwist.config.mjs",
+    "dev": "concurrently -p none 'serwist build --watch --config serwist.config.js' 'next dev'",
+    "build": "next build && serwist build --config serwist.config.js",
     "start": "next start",
     "lint": "eslint ."
   },
