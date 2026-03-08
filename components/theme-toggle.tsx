@@ -2,6 +2,7 @@
 
 import { Sun, Moon, Monitor } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const options = [
@@ -12,6 +13,9 @@ const options = [
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   return (
     <div
@@ -19,22 +23,25 @@ export function ThemeToggle() {
       role="group"
       aria-label="Color theme"
     >
-      {options.map(({ value, icon: Icon, label }) => (
-        <button
-          key={value}
-          onClick={() => setTheme(value)}
-          aria-label={label}
-          aria-pressed={theme === value}
-          className={cn(
-            "flex items-center justify-center w-7 h-7 rounded-full transition-all duration-150",
-            theme === value
-              ? "bg-background text-foreground shadow-sm"
-              : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          <Icon size={14} />
-        </button>
-      ))}
+      {options.map(({ value, icon: Icon, label }) => {
+        const active = mounted && theme === value;
+        return (
+          <button
+            key={value}
+            onClick={() => setTheme(value)}
+            aria-label={label}
+            aria-pressed={active}
+            className={cn(
+              "flex items-center justify-center w-7 h-7 rounded-full transition-all duration-150",
+              active
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <Icon size={14} />
+          </button>
+        );
+      })}
     </div>
   );
 }
