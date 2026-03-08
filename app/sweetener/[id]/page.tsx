@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { sweeteners } from "@/src/data/sweeteners";
 import { Tag, UtensilsCrossed } from "lucide-react";
 import { BackButton } from "@/components/back-button";
+import { PageFooter } from "@/components/page-footer";
 import { cn } from "@/lib/utils";
 import { statusConfig, typeConfig } from "@/src/config/sweetener-config";
 
@@ -154,11 +155,7 @@ export default async function SweetenerDetailPage({ params }: { params: Promise<
           </section>
         )}
 
-        {/* Disclaimer */}
-        <p className="text-muted-foreground/70 pb-4 text-center text-xs leading-relaxed">
-          Based on FSANZ and Monash University FODMAP guidelines. Not medical advice — consult a
-          dietitian for personalised guidance.
-        </p>
+        <PageFooter />
       </div>
     </main>
   );

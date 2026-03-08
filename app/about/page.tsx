@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { IntestineIcon } from "@/components/icons/intestine";
+import { PageFooter } from "@/components/page-footer";
 import { statusConfig, typeConfig } from "@/src/config/sweetener-config";
 import type { IBSStatus, SweetenerType } from "@/src/types";
 
@@ -177,14 +178,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <div className="pt-6 pb-4 text-center">
-          <Link
-            href="/"
-            className="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
-          >
-            &larr; Back to sweetener list
-          </Link>
-        </div>
+        <PageFooter showDisclaimer={false} />
       </div>
     </main>
   );

@@ -9,7 +9,7 @@ import { sweeteners } from "@/src/data/sweeteners";
 import type { IBSStatus, SweetenerType } from "@/src/types";
 import { SweetenerCard } from "@/components/sweetener-card";
 import { FilterChips } from "@/components/filter-chips";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { PageFooter } from "@/components/page-footer";
 
 export default function HomePage() {
   return (
@@ -166,16 +166,7 @@ function HomePageContent() {
           </div>
         )}
 
-        {/* Footer */}
-        <footer className="pt-6 pb-4">
-          <p className="text-muted-foreground/60 text-center text-xs leading-relaxed">
-            Based on FSANZ and Monash University FODMAP guidelines. Not medical advice — consult a
-            dietitian for personalised guidance.
-          </p>
-          <div className="mt-3 flex justify-center">
-            <ThemeToggle />
-          </div>
-        </footer>
+        <PageFooter showBackButton={false} />
       </div>
     </main>
   );
