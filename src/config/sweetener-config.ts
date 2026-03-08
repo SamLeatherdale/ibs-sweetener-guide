@@ -104,7 +104,7 @@ export const typeConfig: Record<
     hoverClass: "hover:border-sky-500/60 hover:text-sky-600",
   },
   alcohol: {
-    label: "Sugar Alcohol",
+    label: "Polyol",
     icon: Droplets,
     bg: "bg-violet-50 text-violet-700",
     darkBg: "dark:bg-violet-950/40 dark:text-violet-400",
@@ -131,7 +131,7 @@ export const ibsStatusOptions = (Object.keys(statusConfig) as IBSStatus[]).map((
   hoverClass: statusConfig[id].hoverClass,
 }));
 
-const sweetenerTypeOrder: SweetenerType[] = ["natural", "artificial", "sugar", "alcohol"];
+const sweetenerTypeOrder: SweetenerType[] = ["artificial", "natural", "alcohol", "sugar"];
 
 export const sweetenerTypeOptions = sweetenerTypeOrder.map((id) => ({
   id,

@@ -39,7 +39,7 @@ const sweetenerTypeDescriptions: Record<SweetenerType, string[]> = {
     "All artificial sweeteners listed here are approved for use in Australia by FSANZ (Food Standards Australia New Zealand).",
   ],
   alcohol: [
-    "Also known as polyols, sugar alcohols are chemically similar to both sugars and alcohols — though they are technically neither. Examples include sorbitol, mannitol, xylitol, erythritol, maltitol, and isomalt. They occur naturally in some fruits and are also manufactured commercially.",
+    "Also known as sugar alcohols, polyols are chemically similar to both sugars and alcohols — though they are technically neither. Examples include sorbitol, mannitol, xylitol, erythritol, maltitol, and isomalt. They occur naturally in some fruits and are also manufactured commercially.",
     "Most polyols are only partially absorbed in the small intestine. The unabsorbed portion reaches the colon where gut bacteria ferment it, producing gas, and it draws water into the bowel through osmotic effects — causing the bloating and diarrhoea typical of IBS symptoms.",
     "Erythritol is a notable exception: approximately 90% is absorbed before reaching the colon, making it much better tolerated than other sugar alcohols.",
   ],

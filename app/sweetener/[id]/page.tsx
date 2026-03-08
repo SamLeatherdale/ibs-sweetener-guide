@@ -76,28 +76,16 @@ export default async function SweetenerDetailPage({ params }: { params: Promise<
                 {sweetener.name}
               </h1>
 
-              <div className="mt-2 flex flex-wrap gap-2">
-                {/* Type pill */}
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {/* Type chip */}
                 <span
                   className={cn(
-                    "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium",
+                    "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
                     type.pillBg,
                   )}
                 >
                   <TypeIcon size={11} />
                   {type.label}
-                </span>
-
-                {/* Status pill */}
-                <span
-                  className={cn(
-                    "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
-                    status.badgeBg,
-                    status.color,
-                  )}
-                >
-                  <StatusIcon size={11} />
-                  {status.label}
                 </span>
               </div>
             </div>

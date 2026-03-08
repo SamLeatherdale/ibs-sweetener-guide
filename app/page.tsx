@@ -153,7 +153,7 @@ function HomePageContent() {
           <ul className="space-y-2.5" role="list" aria-label="Sweetener list">
             {filtered.map((sweetener) => (
               <li key={sweetener.id}>
-                <SweetenerCard sweetener={sweetener} />
+                <SweetenerCard sweetener={sweetener} activeType={activeType} />
               </li>
             ))}
           </ul>
