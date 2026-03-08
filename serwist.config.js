@@ -1,12 +1,11 @@
-// @ts-check
-const { spawnSync } = require("node:child_process");
-const { serwist } = require("@serwist/next/config");
+import { spawnSync } from "node:child_process";
+import { serwist } from "@serwist/next/config";
 
 const revision =
   spawnSync("git", ["rev-parse", "HEAD"], { encoding: "utf-8" }).stdout?.trim() ??
   crypto.randomUUID();
 
-module.exports = serwist({
+export default serwist({
   swSrc: "app/sw.ts",
   swDest: "public/sw.js",
   additionalPrecacheEntries: [{ url: "/~offline", revision }],

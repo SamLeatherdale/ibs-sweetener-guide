@@ -15,11 +15,12 @@ export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
 
   return (
     <div
-      className="flex items-center rounded-full border border-border bg-muted/50 p-0.5 gap-0.5"
+      className="border-border bg-muted/50 flex items-center gap-0.5 rounded-full border p-0.5"
       role="group"
       aria-label="Color theme"
     >
@@ -32,10 +33,10 @@ export function ThemeToggle() {
             aria-label={label}
             aria-pressed={active}
             className={cn(
-              "flex items-center justify-center w-7 h-7 rounded-full transition-all duration-150",
+              "flex h-7 w-7 items-center justify-center rounded-full transition-all duration-150",
               active
                 ? "bg-background text-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             <Icon size={14} />

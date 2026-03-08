@@ -33,7 +33,6 @@ function FilterChip({
   return onClick ? (
     <button
       onClick={onClick}
-      aria-pressed={active}
       role="radio"
       aria-checked={active}
       className={cn(className, "transition-all duration-150")}
