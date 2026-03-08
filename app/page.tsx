@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, Salad } from "lucide-react";
+import { Search } from "lucide-react";
+import { IntestineIcon } from "@/components/icons/intestine";
 import { sweeteners } from "@/src/data/sweeteners";
 import type { IBSStatus, SweetenerType } from "@/src/types";
 import { SweetenerCard } from "@/components/sweetener-card";
@@ -48,7 +49,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <div className="p-1.5 rounded-lg bg-primary/10">
-                <Salad size={18} className="text-primary" />
+                <IntestineIcon size={18} className="text-primary" />
               </div>
               <h1 className="text-base font-bold text-foreground leading-none">
                 IBS Sweetener Guide

@@ -8,3 +8,7 @@ node_modules/
 .next/
 .env*.local
 .DS_Store
+
+# Serwist / PWA service worker output
+/public/sw*
+/public/swe-worker*

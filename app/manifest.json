@@ -1,0 +1,18 @@
+{
+  "name": "IBS Sweetener Guide",
+  "short_name": "Sweeteners",
+  "description": "A quick-reference guide to sweetener safety for IBS sufferers.",
+  "icons": [
+    {
+      "src": "/icon-512.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#0d9488",
+  "background_color": "#fcfcfc",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
