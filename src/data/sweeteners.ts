@@ -452,4 +452,94 @@ export const sweeteners: Sweetener[] = [
     commonUses:
       "Liquorice confectionery, herbal teas, traditional medicines, some soy sauces, tobacco flavouring",
   },
+  {
+    id: "31",
+    name: "Cyclamate",
+    code: "952",
+    type: "artificial",
+    ibsStatus: "safe",
+    description: [
+      "A low-calorie artificial sweetener, usually used as sodium cyclamate or calcium cyclamate, that is around 30–50 times sweeter than sugar.",
+      "Cyclamate is not a FODMAP or a polyol, so it is generally well tolerated by people with IBS at typical food-use levels. It is often blended with saccharin to improve the overall taste.",
+      "Approved by FSANZ for specified uses in Australia and New Zealand, but it is not approved for food use in every country, including the United States.",
+    ],
+    alsoKnownAs: "Cyclamic acid, Sodium cyclamate, Calcium cyclamate, E952",
+    commonUses:
+      "Reduced-sugar soft drinks, cordials, confectionery, tabletop sweeteners, chewing gum, canned fruit",
+  },
+  {
+    id: "32",
+    name: "Alitame",
+    code: "956",
+    type: "artificial",
+    ibsStatus: "safe",
+    description: [
+      "An intense artificial sweetener made from aspartic acid and alanine, approximately 2,000 times sweeter than sugar.",
+      "It is not a FODMAP and is used in extremely small amounts, so it is generally considered safe for people with IBS. Unlike aspartame, it does not produce phenylalanine during digestion.",
+      "Alitame is approved by FSANZ but is uncommon in current food products; it is more likely to be encountered in limited regional, pharmaceutical, or toiletry applications than in everyday supermarket foods.",
+    ],
+    alsoKnownAs: "Acla, E956",
+    commonUses:
+      "Limited-use tabletop sweeteners, chewing gum, reduced-sugar drinks, confectionery, pharmaceuticals, toiletries",
+  },
+  {
+    id: "33",
+    name: "Neohesperidin Dihydrochalcone",
+    code: "959",
+    type: "artificial",
+    ibsStatus: "safe",
+    description: [
+      "An intense sweetener and flavour modifier made by hydrogenating neohesperidin, a citrus flavonoid from bitter oranges. It is commonly abbreviated as NHDC.",
+      "It is used in very small quantities and is not a FODMAP or polyol, making it generally well tolerated by people with IBS at normal food-use levels.",
+      "It has a long-lasting, liquorice-like or menthol-like aftertaste and is often used to reduce bitterness or enhance the sweetness of other ingredients. It is permitted in the EU but not listed as an FSANZ intense sweetener.",
+    ],
+    alsoKnownAs: "NHDC, Neohesperidin DC, E959",
+    commonUses:
+      "Reduced-sugar drinks, sugar-free confectionery, chewing gum, flavoured dairy desserts, sauces, oral-care products, pharmaceutical flavour masking",
+  },
+  {
+    id: "34",
+    name: "Aspartame–Acesulfame Salt",
+    code: "962",
+    type: "artificial",
+    ibsStatus: "safe",
+    description: [
+      "A combined sweetener made from aspartame and acesulfame potassium, approximately 350 times sweeter than sugar.",
+      "It is not a FODMAP or polyol and is generally well tolerated by people with IBS at normal food-use levels.",
+      "Because it contains aspartame, people with phenylketonuria (PKU) need to limit their intake of products containing it. Approved by FSANZ for specified uses in Australia and New Zealand.",
+    ],
+    alsoKnownAs: "Aspartame-acesulfame salt, Aspartame-acesulfame, E962",
+    commonUses:
+      "Reduced-sugar drinks, confectionery, chewing gum, tabletop sweeteners, flavoured dairy products",
+  },
+  {
+    id: "35",
+    name: "Polyglycitol Syrup",
+    code: "964",
+    type: "alcohol",
+    ibsStatus: "caution",
+    description: [
+      "A starch-derived syrup containing a mixture of hydrogenated carbohydrates, including sugar alcohols. It provides bulk, sweetness, moisture retention, and fewer calories than sugar.",
+      "Although it has not been formally classified by Monash University, sugar-alcohol mixtures can cause bloating, gas, or a laxative effect in larger servings. People with IBS should start with a small amount and monitor their tolerance.",
+      "It is an internationally recognised sweetener but is not listed as an FSANZ intense sweetener.",
+    ],
+    alsoKnownAs: "Hydrogenated starch hydrolysate, HSH, E964",
+    commonUses:
+      "Sugar-reduced chocolate and confectionery, chewy sweets, baked goods, snack bars, dessert toppings, reduced-calorie foods",
+  },
+  {
+    id: "36",
+    name: "Lactitol",
+    code: "966",
+    type: "alcohol",
+    ibsStatus: "trigger",
+    description: [
+      "A sugar alcohol made from lactose that is used as a low-calorie bulk sweetener. It has roughly 40% of the sweetness of sugar.",
+      "Lactitol is poorly absorbed in the small intestine and is a polyol FODMAP. It can draw water into the bowel and be fermented by gut bacteria, causing gas, bloating, cramps, and diarrhoea in people with IBS.",
+      "Monash University identifies lactitol as a polyol to look for on labels, particularly in sugar-free products. It is approved by FSANZ for specified uses in Australia and New Zealand.",
+    ],
+    alsoKnownAs: "Lactitol monohydrate, E966",
+    commonUses:
+      "Sugar-free confectionery and chocolate, chewing gum, reduced-calorie baked goods, ice cream, pharmaceutical tablets and syrups",
+  },
 ];
