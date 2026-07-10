@@ -3,13 +3,14 @@
 import { useMemo, useTransition, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Search, Info } from "lucide-react";
+import { Search, Info, Star } from "lucide-react";
 import { IntestineIcon } from "@/components/icons/intestine";
-import { sweeteners } from "@/src/data/sweeteners";
+import { sweeteners, type SweetenerEntry } from "@/src/data/sweeteners";
 import type { IBSStatus, SweetenerType } from "@/src/types";
 import { SweetenerCard } from "@/components/sweetener-card";
 import { FilterChips } from "@/components/filter-chips";
 import { PageFooter } from "@/components/page-footer";
+import { useFavourites } from "@/hooks/use-favourites";
 
 export default function HomePage() {
   return (
@@ -27,6 +28,7 @@ function HomePageContent() {
   const query = searchParams.get("q") ?? "";
   const activeStatus = (searchParams.get("status") as IBSStatus) || null;
   const activeType = (searchParams.get("type") as SweetenerType) || null;
+  const { isFavourite } = useFavourites();
 
   function updateParams(updates: {
     q?: string | null;
@@ -78,17 +80,24 @@ function HomePageContent() {
       result = result.filter((s) => s.type === activeType);
     }
 
-    return [...result].sort((a, b) => {
+    const byECode = (a: SweetenerEntry, b: SweetenerEntry) => {
       const numA = parseInt(a.code.replace(/\D/g, ""), 10);
       const numB = parseInt(b.code.replace(/\D/g, ""), 10);
       if (isNaN(numA) && isNaN(numB)) return a.name.localeCompare(b.name);
       if (isNaN(numA)) return 1;
       if (isNaN(numB)) return -1;
       return numA - numB;
-    });
-  }, [query, activeStatus, activeType]);
+    };
+
+    const all = [...result].sort(byECode);
+    const favourites = all.filter((s) => isFavourite(s.id));
+
+    return { favourites, all };
+  }, [query, activeStatus, activeType, isFavourite]);
 
   const isFiltered = query.trim() !== "" || activeStatus !== null || activeType !== null;
+  const hasFavourites = filtered.favourites.length > 0;
+  const hasResults = filtered.all.length > 0;
 
   return (
     <main className="bg-background min-h-screen">
@@ -141,22 +150,46 @@ function HomePageContent() {
       </header>
 
       <div className="mx-auto max-w-lg px-4 py-4">
-        {/* Results count */}
-        <p className="text-muted-foreground mb-3 text-xs font-medium">
-          {isFiltered
-            ? `${filtered.length} of ${sweeteners.length} sweeteners`
-            : `${sweeteners.length} sweeteners`}
-        </p>
+        {hasResults ? (
+          <div className="space-y-6">
+            {hasFavourites && (
+              <section aria-labelledby="favourites-heading">
+                <h2
+                  id="favourites-heading"
+                  className="text-muted-foreground mb-2.5 flex items-center gap-1.5 text-xs font-medium"
+                >
+                  <Star size={12} className="fill-amber-500 text-amber-500" strokeWidth={0} />
+                  {filtered.favourites.length}{" "}
+                  {filtered.favourites.length === 1 ? "Favourite" : "Favourites"}
+                </h2>
+                <ul className="space-y-2.5" role="list" aria-label="Favourite sweeteners">
+                  {filtered.favourites.map((sweetener) => (
+                    <li key={sweetener.id}>
+                      <SweetenerCard sweetener={sweetener} activeType={activeType} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
-        {/* List */}
-        {filtered.length > 0 ? (
-          <ul className="space-y-2.5" role="list" aria-label="Sweetener list">
-            {filtered.map((sweetener) => (
-              <li key={sweetener.id}>
-                <SweetenerCard sweetener={sweetener} activeType={activeType} />
-              </li>
-            ))}
-          </ul>
+            <section aria-labelledby="all-sweeteners-heading">
+              <h2
+                id="all-sweeteners-heading"
+                className="text-muted-foreground mb-2.5 text-xs font-medium"
+              >
+                {isFiltered
+                  ? `${filtered.all.length} of ${sweeteners.length} sweeteners`
+                  : `${filtered.all.length} sweeteners`}
+              </h2>
+              <ul className="space-y-2.5" role="list" aria-label="Sweetener list">
+                {filtered.all.map((sweetener) => (
+                  <li key={sweetener.id}>
+                    <SweetenerCard sweetener={sweetener} activeType={activeType} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
         ) : (
           <div className="py-16 text-center">
             <p className="text-muted-foreground text-sm">No sweeteners match your filters</p>

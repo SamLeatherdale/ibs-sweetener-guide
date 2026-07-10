@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { sweeteners } from "@/src/data/sweeteners";
 import { Tag, UtensilsCrossed } from "lucide-react";
 import { BackButton } from "@/components/back-button";
+import { FavouriteButton } from "@/components/favourite-button";
 import { PageFooter } from "@/components/page-footer";
 import { cn } from "@/lib/utils";
 import { statusConfig, typeConfig } from "@/src/config/sweetener-config";
@@ -36,6 +37,9 @@ export default async function SweetenerDetailPage({ params }: { params: Promise<
       <header className="bg-background/80 border-border sticky top-0 z-30 border-b backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-lg items-center gap-3 px-4">
           <BackButton />
+          <div className="ml-auto">
+            <FavouriteButton id={sweetener.id} name={sweetener.name} />
+          </div>
         </div>
       </header>
 

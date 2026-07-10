@@ -543,3 +543,5 @@ export const sweeteners: Sweetener[] = [
       "Sugar-free confectionery and chocolate, chewing gum, reduced-calorie baked goods, ice cream, pharmaceutical tablets and syrups",
   },
 ];
+
+export type SweetenerEntry = (typeof sweeteners)[number];
