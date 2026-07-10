@@ -3,12 +3,13 @@
 import { useMemo, useTransition, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Search, Info, Star } from "lucide-react";
+import { Info, Star } from "lucide-react";
 import { IntestineIcon } from "@/components/icons/intestine";
 import { sweeteners, type SweetenerEntry } from "@/src/data/sweeteners";
 import type { IBSStatus, SweetenerType } from "@/src/types";
 import { SweetenerCard } from "@/components/sweetener-card";
 import { FilterChips } from "@/components/filter-chips";
+import { SearchBar } from "@/components/search-bar";
 import { PageFooter } from "@/components/page-footer";
 import { useFavourites } from "@/hooks/use-favourites";
 
@@ -66,11 +67,13 @@ function HomePageContent() {
 
     if (query.trim()) {
       const q = query.toLowerCase().trim();
-      result = result.filter(
-        (s) =>
-          s.name.toLowerCase().includes(q) ||
-          s.code.includes(q) ||
-          (s.alsoKnownAs && s.alsoKnownAs.toLowerCase().includes(q)),
+      const isNumericQuery = /^\d+$/.test(q);
+      result = result.filter((s) =>
+        isNumericQuery
+          ? s.code.replace(/\D/g, "").startsWith(q)
+          : s.name.toLowerCase().includes(q) ||
+            s.code.includes(q) ||
+            (s.alsoKnownAs && s.alsoKnownAs.toLowerCase().includes(q)),
       );
     }
     if (activeStatus) {
@@ -124,19 +127,8 @@ function HomePageContent() {
           </div>
 
           {/* Search */}
-          <div className="relative mb-3">
-            <Search
-              size={16}
-              className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
-            />
-            <input
-              type="search"
-              placeholder="Search by name or E number..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="bg-muted/60 border-border text-foreground placeholder:text-muted-foreground focus:ring-ring h-10 w-full rounded-xl border pr-4 pl-9 text-sm transition-all focus:border-transparent focus:ring-2 focus:outline-none"
-              aria-label="Search sweeteners"
-            />
+          <div className="mb-3">
+            <SearchBar value={query} onChange={setQuery} />
           </div>
 
           {/* Filter chips */}
