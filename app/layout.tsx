@@ -48,7 +48,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SerwistProvider swUrl="/sw.js" disable={process.env.NODE_ENV === "development"} />
+          <SerwistProvider
+            swUrl="/sw.js"
+            disable={process.env.NODE_ENV === "development" && process.env.SERWIST_DEV !== "1"}
+          />
           {children}
           <Analytics />
         </ThemeProvider>
